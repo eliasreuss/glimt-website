@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keep the memories alive with Glimt</title>
+  <meta name="description" content="Glimt is a digital memory book that transforms gravestones into living memorials. Scan a QR code to explore a life, share memories, and keep loved ones close.">
+
+  <!-- Fonts: Playfair Display (Serif) & Manrope (Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script>
+    (function() {
+      /* Grain texture using Grainient-style algorithm */
+      function grain(x, y, scale) {
+        var n = Math.sin((x * scale) * 12.9898 + (y * scale) * 78.233) * 43758.5453;
+        return n - Math.floor(n);
+      }
+      function createGrainTexture(size, grainScale, grainAmount) {
+        var canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        var ctx = canvas.getContext('2d');
+        var imgData = ctx.createImageData(size, size);
+        var data = imgData.data;
+        for (var y = 0; y < size; y++) {
+          for (var x = 0; x < size; x++) {
+            var g = grain(x / size, y / size, grainScale);
+            var val = Math.floor((0.5 + (g - 0.5) * grainAmount) * 255);
+            val = Math.max(0, Math.min(255, val));
+            var i = (y * size + x) * 4;
+            data[i] = data[i + 1] = data[i + 2] = val;
+            data[i + 3] = 255;
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        return canvas.toDataURL('image/png');
+      }
+      var bodyGrain = createGrainTexture(256, 2, 0.1);
+      var imgGrain = createGrainTexture(256, 2, 0.15);
+      var style = document.createElement('style');
+      style.textContent = 'body::before{background-image:url(' + bodyGrain + ')}.img-grain::after{background-image:url(' + imgGrain + ')}';
+      document.head.appendChild(style);
+    })();
+  </script>
+
+  <!-- ========================================
+       NAVIGATION
+       ======================================== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="Assets/Main-logo-dark.svg" alt="Glimt Logo">
+      </a>
+      <ul class="nav__links">
+        <li><a href="#what-is-glimt">What is Glimt?</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#get-started" class="nav__cta">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========================================
+       1. HERO
+       ======================================== -->
+  <section class="hero">
+    <div class="hero__grainient" id="hero-grainient" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero__grid">
+        <div class="hero__content">
+          <h1 class="hero__title">Keep the memories alive with Glimt.</h1>
+          <p class="hero__subtitle">
+            The digital memory book for your loved ones.
+          </p>
+          <div class="hero__buttons">
+            <a href="#get-started" class="btn btn--primary">
+              Get Started <span class="arrow">&rarr;</span>
+            </a>
+            <a href="#how-it-works" class="btn">
+              Learn More <span class="arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+        <div class="hero__image img-grain hero__image-wrap">
+          <img src="Assets/image 1.png" alt="Peaceful memorial setting in nature">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       2. WHAT IS GLIMT?
+       ======================================== -->
+  <section class="what-is-glimt" id="what-is-glimt">
+    <div class="container">
+      <div class="what-is-glimt__text text-center">
+        <h2>What is Glimt?</h2>
+        <p>
+          Glimt is a digital memory book that allows anyone visiting a loved one’s grave to share and discover memories. By scanning the memory book, visitors can upload photos or written notes and read the stories others have left behind.
+        </p>
+      </div>
+      <div class="what-is-glimt__stack-container">
+        <img src="Assets/BasePolo.png" alt="" class="polaroid polaroid-base">
+        <img src="Assets/polo1.png" alt="Memory Photo 1" class="polaroid polaroid-1">
+        <img src="Assets/polo2.png" alt="Memory Note 2" class="polaroid polaroid-2">
+        <img src="Assets/polo3.png" alt="Memory Photo 3" class="polaroid polaroid-3">
+      </div>
+    </div>
+  </section>
+  <!-- Spacer to allow 2000px of scrolling while "What is Glimt" is sticky -->
+  <div class="glimt-spacer"></div>
+
+  <!-- ========================================
+       3. HOW IT WORKS
+       ======================================== -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="how-it-works__header">
+        <h2>Set it up in three simple steps</h2>
+        <p>From purchase to a living memorial, we've made it easy to get started.</p>
+      </div>
+
+      <div class="how-it-works__steps">
+        <div class="step" data-step>
+          <div class="step__sheen"></div>
+          <div class="step__number">1</div>
+          <h3 class="step__title">Personalize your memorial page</h3>
+          <div class="step__icon floating-mockup">
+             <img src="Assets/Step1Mockup.png" alt="Set up memorial page">
+          </div>
+        </div>
+
+        <div class="step" data-step>
+          <div class="step__sheen"></div>
+          <div class="step__number">2</div>
+          <h3 class="step__title">Place the sign</h3>
+          <div class="step__icon floating-mockup">
+             <img src="Assets/SignMockup.png" alt="Place the sign">
+          </div>
+        </div>
+
+        <div class="step" data-step>
+          <div class="step__sheen"></div>
+          <div class="step__number">3</div>
+          <h3 class="step__title">Let people share their memories</h3>
+          <div class="step__icon floating-mockup">
+             <img src="Assets/Step3Mockup.png" alt="Share memories">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       4. CTA
+       ======================================== -->
+  <section class="cta-section" id="get-started">
+    <div class="cta-section__grainient" id="cta-grainient" aria-hidden="true"></div>
+    <div class="container text-center">
+      <h2>Create a lasting place for memories.</h2>
+      <p>
+        Explore the product and find the right solution for your loved one.
+      </p>
+      <a href="#" class="btn btn--sage">
+        Discover Glimt <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========================================
+       5. FOOTER
+       ======================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">
+             <img src="Assets/Main-logo-light.svg" alt="Glimt Logo" style="height: 24px; width: auto;">
+          </div>
+          <p>A digital memory book that transforms gravestones into living memorials. Preserving stories for generations.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Example Memorial</a></li>
+            <li><a href="#">QR Plaques</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2026 Glimt. All rights reserved.</span>
+        <span>Made with care in Denmark</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lenis (smooth scroll) -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- Lenis smooth scroll ---
+    var lenis = new Lenis({ lerp: 0.08, duration: 1.2 });
+    lenis.on('scroll', ScrollTrigger.update);
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Anchor links: use Lenis for smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var href = a.getAttribute('href');
+        if (href === '#') return;
+        var target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: 0 });
+        }
+      });
+    });
+
+    function initAnimations() {
+      var ease = 'power4.out';
+
+      function splitWords(el) {
+        var text = el.textContent;
+        el.innerHTML = text.split(/\s+/).map(function(word) {
+          return '<span class="word"><span>' + word + '</span></span>';
+        }).join(' ');
+      }
+
+      var heroTitle = document.querySelector('.hero__title');
+      var heroSubtitle = document.querySelector('.hero__subtitle');
+      if (heroTitle) splitWords(heroTitle);
+      if (heroSubtitle) splitWords(heroSubtitle);
+
+      // --- Hero animations ---
+      gsap.fromTo('.hero__image-wrap', 
+        { clipPath: 'inset(100% 0 0 0)' },
+        { clipPath: 'inset(0% 0 0 0)', duration: 1.4, ease: 'expo.out' }
+      );
+      gsap.fromTo('.hero__title .word span',
+        { y: '100%', opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.04, ease: ease, delay: 0.3 }
+      );
+      gsap.fromTo('.hero__subtitle .word span',
+        { y: '100%', opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.02, ease: ease, delay: 0.7 }
+      );
+      gsap.fromTo('.hero__buttons',
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: ease, delay: 1.1 }
+      );
+      gsap.fromTo('.hero__image-wrap img',
+        { scale: 1.2 },
+        { scale: 1, duration: 1.6, ease: 'expo.out', delay: 0.2 }
+      );
+
+      // --- Hero parallax fade as next section slides over ---
+      gsap.to('.hero__content', {
+        y: -60,
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+      gsap.to('.hero__image-wrap', {
+        y: -30,
+        scale: 1.05,
+        opacity: 0.3,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      // --- What is Glimt: Pinned Stack Animation ---
+      var glimtSection = document.querySelector('.what-is-glimt');
+      if (glimtSection) {
+        // Base stays visible; only animate the cards that land on top
+        gsap.set('.polaroid-1, .polaroid-2, .polaroid-3', { y: '90vh', xPercent: -50 });
+
+        var stackTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.what-is-glimt',
+            start: 'top top',
+            end: '+=2000', // Adjusted scroll length matching the new spacer
+            scrub: 1
+            // pin: true has been removed because CSS handles the sticky pinning natively now
+          }
+        });
+
+        // Stack perfectly on top of each other (y:0) with varying tilts
+        stackTl
+          .to('.polaroid-1', { y: 0, rotation: -6, duration: 1, ease: 'power2.out' })
+          .to('.polaroid-2', { y: 0, rotation: 5, duration: 1, ease: 'power2.out' }, '-=0.6')
+          .to('.polaroid-3', { y: 0, rotation: -3, duration: 1, ease: 'power2.out' }, '-=0.6');
+      }
+
+      // --- What is Glimt parallax fade as "How it works" slides over it ---
+      gsap.to('.what-is-glimt .container', {
+        y: -60,
+        opacity: 0,
+        scale: 0.95,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.how-it-works',
+          start: 'top bottom', // Triggers when "How It Works" enters viewport
+          end: 'top top',
+          scrub: true
+        }
+      });
+
+      // --- How It Works: Section content timeline ---
+      var howTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.how-it-works',
+          start: 'top 75%',
+          toggleActions: 'play none none none'
+        }
+      });
+      howTimeline
+        .fromTo('.how-it-works__header', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: ease })
+        .fromTo('.step', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: ease }, '-=0.5')
+        .fromTo('.step__icon img', { scale: 1.2 }, { scale: 1, duration: 1, stagger: 0.1, ease: 'expo.out' }, '-=1');
+
+      // --- CTA: content timeline ---
+      var ctaTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.cta-section',
+          start: 'top 70%',
+          toggleActions: 'play none none none'
+        }
+      });
+      ctaTimeline
+        .fromTo('.cta-section h2', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: ease })
+        .fromTo('.cta-section p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: ease }, '-=0.6')
+        .fromTo('.cta-section .btn', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: ease }, '-=0.5');
+
+      // --- Floating mockups ---
+      document.querySelectorAll('.floating-mockup').forEach(function(mockup, i) {
+        gsap.to(mockup, {
+          y: -6,
+          duration: 4,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          delay: i * 0.5
+        });
+      });
+
+      // --- Step cards: mouse-follow tilt ---
+      var maxMove = 2.5;
+      document.querySelectorAll('.step').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          var rect = card.getBoundingClientRect();
+          var x = (e.clientX - rect.left) / rect.width;
+          var y = (e.clientY - rect.top) / rect.height;
+          var moveX = (x - 0.5) * 2 * maxMove;
+          var moveY = (y - 0.5) * 2 * maxMove;
+          card.style.transform = 'translate(' + moveX + 'px, ' + (-4 + moveY) + 'px)';
+        });
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = '';
+        });
+      });
+    }
+
+    window.addEventListener('load', initAnimations);
+  </script>
+
+  <!-- OGL Shader integration -->
+  <script type="module">
+    import { Renderer, Program, Mesh, Triangle } from 'https://esm.sh/ogl';
+
+    const hexToRgb = hex => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      if (!result) return[1, 1, 1];
+      return[parseInt(result[1], 16) / 255, parseInt(result[2], 16) / 255, parseInt(result[3], 16) / 255];
+    };
+
+    const vertex = `#version 300 es
+in vec2 position;
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+    const fragment = `#version 300 es
+precision highp float;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform float uTimeSpeed;
+uniform float uColorBalance;
+uniform float uWarpStrength;
+uniform float uWarpFrequency;
+uniform float uWarpSpeed;
+uniform float uWarpAmplitude;
+uniform float uBlendAngle;
+uniform float uBlendSoftness;
+uniform float uRotationAmount;
+uniform float uNoiseScale;
+uniform float uGrainAmount;
+uniform float uGrainScale;
+uniform float uGrainAnimated;
+uniform float uContrast;
+uniform float uGamma;
+uniform float uSaturation;
+uniform vec2 uCenterOffset;
+uniform float uZoom;
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uColor3;
+out vec4 fragColor;
+#define S(a,b,t) smoothstep(a,b,t)
+mat2 Rot(float a){float s=sin(a),c=cos(a);return mat2(c,-s,s,c);}
+vec2 hash(vec2 p){p=vec2(dot(p,vec2(2127.1,81.17)),dot(p,vec2(1269.5,283.37)));return fract(sin(p)*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);float n=mix(mix(dot(-1.0+2.0*hash(i+vec2(0.0,0.0)),f-vec2(0.0,0.0)),dot(-1.0+2.0*hash(i+vec2(1.0,0.0)),f-vec2(1.0,0.0)),u.x),mix(dot(-1.0+2.0*hash(i+vec2(0.0,1.0)),f-vec2(0.0,1.0)),dot(-1.0+2.0*hash(i+vec2(1.0,1.0)),f-vec2(1.0,1.0)),u.x),u.y);return 0.5+0.5*n;}
+void mainImage(out vec4 o, vec2 C){
+  float t=iTime*uTimeSpeed;
+  vec2 uv=C/iResolution.xy;
+  float ratio=iResolution.x/iResolution.y;
+  vec2 tuv=uv-0.5+uCenterOffset;
+  tuv/=max(uZoom,0.001);
+  float degree=noise(vec2(t*0.1,tuv.x*tuv.y)*uNoiseScale);
+  tuv.y*=1.0/ratio;
+  tuv*=Rot(radians((degree-0.5)*uRotationAmount+180.0));
+  tuv.y*=ratio;
+  float frequency=uWarpFrequency;
+  float ws=max(uWarpStrength,0.001);
+  float amplitude=uWarpAmplitude/ws;
+  float warpTime=t*uWarpSpeed;
+  tuv.x+=sin(tuv.y*frequency+warpTime)/amplitude;
+  tuv.y+=sin(tuv.x*(frequency*1.5)+warpTime)/(amplitude*0.5);
+  vec3 colLav=uColor1;
+  vec3 colOrg=uColor2;
+  vec3 colDark=uColor3;
+  float b=uColorBalance;
+  float s=max(uBlendSoftness,0.0);
+  mat2 blendRot=Rot(radians(uBlendAngle));
+  float blendX=(tuv*blendRot).x;
+  float edge0=-0.3-b-s;
+  float edge1=0.2-b+s;
+  float v0=0.5-b+s;
+  float v1=-0.3-b-s;
+  vec3 layer1=mix(colDark,colOrg,S(edge0,edge1,blendX));
+  vec3 layer2=mix(colOrg,colLav,S(edge0,edge1,blendX));
+  vec3 col=mix(layer1,layer2,S(v0,v1,tuv.y));
+  vec2 grainUv=uv*max(uGrainScale,0.001);
+  if(uGrainAnimated>0.5){grainUv+=vec2(iTime*0.05);}
+  float grain=fract(sin(dot(grainUv,vec2(12.9898,78.233)))*43758.5453);
+  col+=(grain-0.5)*uGrainAmount;
+  col=(col-0.5)*uContrast+0.5;
+  float luma=dot(col,vec3(0.2126,0.7152,0.0722));
+  col=mix(vec3(luma),col,uSaturation);
+  col=pow(max(col,0.0),vec3(1.0/max(uGamma,0.001)));
+  col=clamp(col,0.0,1.0);
+  o=vec4(col,1.0);
+}
+void main(){
+  vec4 o=vec4(0.0);
+  mainImage(o,gl_FragCoord.xy);
+  fragColor=o;
+}
+`;
+
+    function initGrainient(id) {
+      const container = document.getElementById(id);
+      if (!container) return;
+
+      const renderer = new Renderer({
+        webgl: 2,
+        alpha: false,
+        antialias: false,
+        dpr: Math.min(window.devicePixelRatio || 1, 2)
+      });
+
+      const gl = renderer.gl;
+      const canvas = gl.canvas;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.display = 'block';
+      container.appendChild(canvas);
+
+      const geometry = new Triangle(gl);
+      const program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
+          iTime: { value: 0 },
+          iResolution: { value: new Float32Array([1, 1]) },
+          uTimeSpeed: { value: 0.25 },
+          uColorBalance: { value: 0 },
+          uWarpStrength: { value: 1 },
+          uWarpFrequency: { value: 5 },
+          uWarpSpeed: { value: 2 },
+          uWarpAmplitude: { value: 50 },
+          uBlendAngle: { value: 0 },
+          uBlendSoftness: { value: 0.15 },
+          uRotationAmount: { value: 500 },
+          uNoiseScale: { value: 2 },
+          uGrainAmount: { value: 0.1 },
+          uGrainScale: { value: 2 },
+          uGrainAnimated: { value: 0 },
+          uContrast: { value: 1.5 },
+          uGamma: { value: 1 },
+          uSaturation: { value: 1 },
+          uCenterOffset: { value: new Float32Array([0, 0]) },
+          uZoom: { value: 0.9 },
+          uColor1: { value: new Float32Array(hexToRgb('#FFE8CC')) },
+          uColor2: { value: new Float32Array(hexToRgb('#FFEDD8')) },
+          uColor3: { value: new Float32Array(hexToRgb('#CAB8A8')) }
+        }
+      });
+
+      const mesh = new Mesh(gl, { geometry, program });
+
+      const setSize = () => {
+        const rect = container.getBoundingClientRect();
+        const width = Math.max(1, Math.floor(rect.width));
+        const height = Math.max(1, Math.floor(rect.height));
+        renderer.setSize(width, height);
+        const res = program.uniforms.iResolution.value;
+        res[0] = gl.drawingBufferWidth;
+        res[1] = gl.drawingBufferHeight;
+      };
+
+      const ro = new ResizeObserver(setSize);
+      ro.observe(container);
+      setSize();
+
+      let raf = 0;
+      const t0 = performance.now();
+      const loop = t => {
+        program.uniforms.iTime.value = (t - t0) * 0.001;
+        renderer.render({ scene: mesh });
+        raf = requestAnimationFrame(loop);
+      };
+      raf = requestAnimationFrame(loop);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        initGrainient('hero-grainient');
+        initGrainient('cta-grainient');
+      });
+    } else {
+      initGrainient('hero-grainient');
+      initGrainient('cta-grainient');
+    }
+  </script>
+</body>
+</html>
