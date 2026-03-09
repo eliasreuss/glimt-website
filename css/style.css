@@ -503,6 +503,9 @@ p.large {
   top: 5vh;
   left: 50%;
   width: clamp(240px, 34vw, 395px); /* Reduced all sizes proportionally */
+  max-height: min(52vh, 520px);
+  object-fit: contain;
+  object-position: top center;
   filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.4));
   will-change: transform;
 }
@@ -1026,6 +1029,7 @@ p.large {
 
   .polaroid {
     width: clamp(280px, 65vw, 420px);
+    max-height: min(48vh, 480px);
   }
 
   .intro__inner {
@@ -1109,7 +1113,9 @@ p.large {
   }
 
   .polaroid {
-    width: 85vw;
+    width: min(85vw, 320px);
+    max-height: min(42vh, 420px);
+    top: 2vh;
   }
 
   .how-it-works__header h2 {
@@ -1133,6 +1139,42 @@ p.large {
     flex-direction: column;
     gap: var(--space-sm);
     text-align: center;
+  }
+}
+
+/* Short viewports (e.g. 13" MacBook) — ensure polaroids fit */
+@media (max-height: 900px) {
+  .what-is-glimt__text {
+    padding-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .what-is-glimt__text p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .polaroid {
+    top: 6vh;
+    max-height: min(50vh, 480px);
+    width: clamp(260px, 36vw, 380px);
+  }
+}
+
+@media (max-height: 750px) {
+  .what-is-glimt__text h2 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  .what-is-glimt__text {
+    padding-top: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+
+  .polaroid {
+    top: 5vh;
+    max-height: min(46vh, 450px);
+    width: clamp(240px, 34vw, 360px);
   }
 }
 
